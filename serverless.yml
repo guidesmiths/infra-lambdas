@@ -1,0 +1,28 @@
+service: slack
+
+custom:
+  secrets: ${file(secrets.json)}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  region: eu-central-1
+  environment:
+    SLACK_TOKEN: ${self:custom.secrets.token}
+    CHANNEL: ${self:custom.secrets.channel}
+
+functions:
+  ecs:
+    handler: handlers/aws/ecs/index.ecs
+    events:
+      - cloudwatchEvent:
+          event:
+            source:
+              - "aws.ecs"
+            detail-type:
+              - "ECS Task State Change"
+
+
+plugins:
+  - serverless-offline

@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing the required components
+      - make install
+  pre_build:
+    commands:
+      - make secrets
+      - aws s3 cp s3://$S3_BUCKET/$SECRETS_FILE_NAME - > $SECRETS_FILE_NAME
+  post_build:
+    commands:
+      - make build
+cache:
+    paths: 
+      - .serverless/*
