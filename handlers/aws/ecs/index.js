@@ -1,4 +1,4 @@
-const controller = require('../../../controllers/index');
+const controller = require('./controller');
 
 module.exports.ecs = (event, context) => {
 	const flags = {
