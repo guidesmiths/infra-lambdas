@@ -1,19 +1,19 @@
 {
-  "name": "lambda-slack",
-  "version": "1.0.0",
-  "description": "Notify AWS events to your Slack Channels",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/josegrobles/infra-lambdas"
-  },
-  "author": "Jose Antonio González Robles <josegrobles1997@gmail.com> (https://github.com/josegrobles)",
-  "license": "MIT",
-  "dependencies": {
-    "request": "^2.87.0",
-    "request-promise-native": "^1.0.5"
-  },
-  "devDependencies": {
-    "serverless-offline": "^3.25.4"
-  }
+	"name": "infra-lambdas",
+	"version": "1.0.0",
+	"description": "Infrastructure Lambdas",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/josegrobles/infra-lambdas"
+	},
+	"author": "GuideSmiths Ltd",
+	"license": "MIT",
+	"dependencies": {
+		"request": "^2.87.0",
+		"request-promise-native": "^1.0.5"
+	},
+	"devDependencies": {
+		"serverless-offline": "^3.25.4"
+	}
 }
