@@ -1,4 +1,4 @@
-service: slack
+service: infra-lambdas
 
 custom:
   secrets: ${file(secrets.json)}
