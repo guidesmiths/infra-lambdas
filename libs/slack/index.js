@@ -3,27 +3,33 @@ const request = require('request-promise-native');
 const SLACK_POST_MESSAGE_URL = 'https://slack.com/api/chat.postMessage';
 const SLACK_UPDATE_MESSAGE_URL = 'https://slack.com/api/chat.update';
 const SLACK_GET_HISTORY_URL = 'https://slack.com/api/conversations.history';
-const CHANNEL = process.env.CHANNEL;
+const CHANNEL_ESCAPIFY = process.env.CHANNEL_ESCAPIFY;
+const CHANNEL_KAAS = process.env.CHANNEL_KAAS;
 const SLACK_TOKEN = process.env.SLACK_TOKEN;
 
-module.exports.sendNotification = (attachments, changeArn, status) =>
+module.exports.sendNotification = (attachments, arn, status) =>
 	getHistory().then(messages => {
-		messages = messages.filter(
-			message => message.attachments && message.attachments[0].footer.indexOf(changeArn) != -1,
-		);
-		return messages.length > 0 ? updateMessage(attachments, status, messages) : postMessage(createMessage(attachments));
+		messages = messages.filter(message => message.attachments && message.attachments[0].footer.indexOf(arn) != -1);
+		return messages.length > 0
+			? updateMessage(attachments, status, messages, router(arn))
+			: postMessage(createMessage(attachments), router(arn));
 	});
 
-const postMessage = attachments =>
+const router = arn => {
+	if (arn.includes('kaas-dev') || arn.includes('kaas-prod')) return CHANNEL_KAAS;
+	return CHANNEL_ESCAPIFY;
+};
+
+const postMessage = (attachments, channel) =>
 	request.post(SLACK_POST_MESSAGE_URL, {
-		form: { token: SLACK_TOKEN, channel: CHANNEL, attachments: JSON.stringify(attachments) },
+		form: { token: SLACK_TOKEN, channel, attachments: JSON.stringify(attachments) },
 	});
 
-const updateMessage = (attachments, status, messages) => {
+const updateMessage = (attachments, status, messages, channel) => {
 	attachments.fields.push(createFlowField(messages, status));
 	attachments = createMessage(attachments);
 	return request.post(SLACK_UPDATE_MESSAGE_URL, {
-		form: { token: SLACK_TOKEN, channel: CHANNEL, attachments: JSON.stringify(attachments), ts: messages[0].ts },
+		form: { token: SLACK_TOKEN, channel, attachments: JSON.stringify(attachments), ts: messages[0].ts },
 	});
 };
 

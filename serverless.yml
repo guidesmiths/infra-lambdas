@@ -10,7 +10,8 @@ provider:
   region: eu-central-1
   environment:
     SLACK_TOKEN: ${self:custom.secrets.token}
-    CHANNEL: ${self:custom.secrets.channel}
+    CHANNEL_ESCAPIFY: ${self:custom.secrets.channel_escapify}
+    CHANNEL_KAAS: ${self:custom.secrets.channel_kaas}
 
 functions:
   ecs:
