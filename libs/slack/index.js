@@ -8,7 +8,7 @@ const CHANNEL_KAAS = process.env.CHANNEL_KAAS;
 const SLACK_TOKEN = process.env.SLACK_TOKEN;
 
 module.exports.sendNotification = (attachments, arn, status) =>
-	getHistory().then(messages => {
+	getHistory(router(arn)).then(messages => {
 		messages = messages.filter(message => message.attachments && message.attachments[0].footer.indexOf(arn) != -1);
 		return messages.length > 0
 			? updateMessage(attachments, status, messages, router(arn))
@@ -16,7 +16,8 @@ module.exports.sendNotification = (attachments, arn, status) =>
 	});
 
 const router = arn => {
-	if (arn.includes('kaas-dev') || arn.includes('kaas-prod')) return CHANNEL_KAAS;
+	arn = arn || '';
+	if (arn.includes('kaas')) return CHANNEL_KAAS;
 	return CHANNEL_ESCAPIFY;
 };
 
@@ -54,9 +55,9 @@ const createFlowField = (messages, status) => {
 	return ['STATUS FLOW', `${flow} > ${status}`, false];
 };
 
-const getHistory = () =>
+const getHistory = channel =>
 	request
-		.post(SLACK_GET_HISTORY_URL, { form: { token: SLACK_TOKEN, channel: CHANNEL } })
+		.post(SLACK_GET_HISTORY_URL, { form: { token: SLACK_TOKEN, channel } })
 		.then(response => JSON.parse(response).messages);
 
 const createField = ([title, value, short]) => ({
@@ -64,3 +65,8 @@ const createField = ([title, value, short]) => ({
 	value,
 	short,
 });
+
+module.exports = {
+	postMessage,
+	router,
+};

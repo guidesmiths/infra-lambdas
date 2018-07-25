@@ -23,6 +23,15 @@ functions:
               - "aws.ecs"
             detail-type:
               - "ECS Task State Change"
+  codepipeline:
+    handler: handlers/aws/codepipeline/index.codepipeline
+    events:
+      - cloudwatchEvent:
+          event:
+            source:
+              - "aws.codepipeline"
+            detail-type:
+              - "CodePipeline Pipeline Execution State Change"
 
 
 plugins:
