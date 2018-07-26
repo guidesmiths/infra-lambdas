@@ -7,7 +7,7 @@ const CHANNEL_ESCAPIFY = process.env.CHANNEL_ESCAPIFY;
 const CHANNEL_KAAS = process.env.CHANNEL_KAAS;
 const SLACK_TOKEN = process.env.SLACK_TOKEN;
 
-module.exports.sendNotification = (attachments, arn, status) =>
+const sendNotification = (attachments, arn, status) =>
 	getHistory(router(arn)).then(messages => {
 		messages = messages.filter(message => message.attachments && message.attachments[0].footer.indexOf(arn) != -1);
 		return messages.length > 0
@@ -67,6 +67,7 @@ const createField = ([title, value, short]) => ({
 });
 
 module.exports = {
+	sendNotification,
 	postMessage,
 	router,
 };
