@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: infra-lambdas-pg
+    image: postgres
+    volumes:
+      - "./database:/data" # volume in host -> $(pwd)/database
+    environment:
+      - POSTGRES_USER=node
+      - POSTGRES_PASSWORD=node
+      - POSTGRES_DB=unleash
+    ports:
+      - '5432:5432'

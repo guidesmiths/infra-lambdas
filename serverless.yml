@@ -32,6 +32,21 @@ functions:
               - "aws.codepipeline"
             detail-type:
               - "CodePipeline Pipeline Execution State Change"
+  toggles-server:
+    handler: handlers/toggles/index.server
+    events:
+      - http:
+          path: toggles/server
+          method: get
+          cors: true
+
+  toggles-app:
+    handler: handlers/toggles/index.app
+    events:
+      - http:
+          path: toggles/app
+          method: get
+          cors: true
 
 
 plugins:
