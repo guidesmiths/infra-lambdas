@@ -1,19 +1,25 @@
 {
-	"name": "infra-lambdas",
-	"version": "1.0.0",
-	"description": "Infrastructure Lambdas",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/josegrobles/infra-lambdas"
-	},
-	"author": "GuideSmiths Ltd",
-	"license": "MIT",
-	"dependencies": {
-		"request": "^2.87.0",
-		"request-promise-native": "^1.0.5"
-	},
-	"devDependencies": {
-		"serverless-offline": "^3.25.4"
-	}
+  "name": "infra-lambdas",
+  "version": "1.0.0",
+  "description": "Infrastructure Lambdas",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josegrobles/infra-lambdas"
+  },
+  "author": "GuideSmiths Ltd",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
+    "snyk": "^1.316.1"
+  },
+  "devDependencies": {
+    "serverless-offline": "^3.25.4"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
